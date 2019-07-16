@@ -13,6 +13,7 @@ exports.up = function(knex) {
       .notNullable();
     table.enu('transmissionType', ['manual', 'automatic']);
     table.enu('titleStatus', ['clean', 'salvage', 'new', 'other']);
+    table.bigInteger('saleId').unsigned().index().references('id').inTable('sales')
   });
 };
 
