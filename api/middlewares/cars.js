@@ -5,7 +5,7 @@ async function validateCarId(req, res, next) {
   if (isNaN(Number(id))) {
     res.status(400).json({ message: 'Car id must be a number' }).end();
   } else {
-    const car = await carsDb.getById(id);
+    const car = await carsDb.getCarById(id);
     if (car) {
       req.car = car;
       next();
