@@ -21,6 +21,26 @@ router.get('/:id', validateCarId, async (req, res, next) => {
   }
 });
 
-
+router.post('/', validateCarData, async (req, res, next) => {
+  const { VIN, make, model, mileage, transmissionType, titleStatus } = req.body;
+  const newCar = {
+    VIN,
+    make,
+    model,
+    mileage,
+  }
+  if (transmissionType) {
+    newCar.transmissionType = transmissionType
+  }
+  if (titleStatus) {
+    newCar.titleStatus = titleStatus
+  }
+  try {
+    const car = await carsDb.addCar(newCar);
+    res.status(201).json(car)
+  } catch (error) {
+    next(new Error('Car creation failed. Please try again'));
+  }
+});
 
 module.exports = router;
