@@ -11,6 +11,8 @@ exports.up = function(knex) {
       .notNullable();
     table.integer('mileage')
       .notNullable();
+    table.enu('transmissionType', ['manual', 'automatic']);
+    table.enu('titleStatus', ['clean', 'salvage', 'new', 'other']);
   });
 };
 
