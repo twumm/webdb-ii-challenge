@@ -1,9 +1,11 @@
 const express = require('express');
 
 const server = express();
+const carsRouter = require('./cars/carsRouter');
 
 server.use(express.json());
 server.use(logger);
+server.use('/api/cars', carsRouter);
 
 server.get('/', (req, res) => {
   res.status(200).send('<h2>Welcome to cars api</h2>');
