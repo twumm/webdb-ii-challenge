@@ -43,4 +43,40 @@ router.post('/', validateCarData, async (req, res, next) => {
   }
 });
 
+router.put('/:id', [validateCarId, validateCarData], async (req, res, next) => {
+  const { VIN, make, model, mileage, transmissionType, titleStatus } = req.body;
+  const carUpdates = {
+    VIN,
+    make,
+    model,
+    mileage,
+  }
+  if (transmissionType) {
+    carUpdates.transmissionType = transmissionType
+  }
+  if (titleStatus) {
+    carUpdates.titleStatus = titleStatus
+  }
+  try {
+    const updatedCar = await carsDb.updateCar(req.car.id, carUpdates);
+    res.status(200).json(updatedCar);
+  } catch (error) {
+    next(new Error('Update failed miserably! Kindly try again.'));
+  }
+});
+
+router.delete('/:id', validateCarId, async(req, res, next) => {
+  try {
+    const deletedCount = await carsDb.removeCar(req.car.id);
+    res
+      .status(200)
+      .json({
+        count: deletedCount,
+        deletedCar: req.car
+      });
+  } catch (error) {
+    next(new Error('Car does not want to be deleted. Try again.'));
+  }
+});
+
 module.exports = router;
